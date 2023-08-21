@@ -3,6 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { Tween, Easing, update } from "three/examples/jsm/libs/tween.module.js";
+// gui
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 // 创建场景
 const scene = new THREE.Scene();
@@ -14,7 +16,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(0, 0, 5);
+camera.position.set(5, 0, 0);
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -54,17 +56,38 @@ const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("/draco/");
 gltfLoader.setDRACOLoader(dracoLoader);
-let door: THREE.Group;
+let left_door: THREE.Group;
+let right_door: THREE.Group;
 gltfLoader.load(
   "/box/6.gltf",
   (gltf) => {
-    console.log(gltf);
-    gltf.scene.name = "door";
-    gltf.scene.rotateY(-Math.PI / 2);
-    gltf.scene.children[0].translateZ(-1);
-    gltf.scene.position.set(-1, 0, 0);
-    door = gltf.scene;
-    scene.add(gltf.scene);
+    const _scene1 = gltf.scene.clone();
+    _scene1.name = "left_door";
+    _scene1.children[0].translateZ(-1);
+    _scene1.position.set(0, 0, 2);
+    left_door = _scene1;
+    scene.add(_scene1);
+  },
+  (progress) => {
+    console.log("progress");
+    console.log(progress);
+  },
+  (error) => {
+    console.log("error");
+    console.log(error);
+  }
+);
+
+gltfLoader.load(
+  "/box/7.gltf",
+  (gltf) => {
+    const _scene2 = gltf.scene.clone();
+    _scene2.name = "right_door";
+    // _scene2.rotation.y = -Math.PI;
+    _scene2.children[0].translateZ(1);
+    _scene2.position.set(0, 0, -2);
+    right_door = _scene2;
+    scene.add(_scene2);
   },
   (progress) => {
     console.log("progress");
@@ -127,29 +150,43 @@ function animate() {
 }
 animate();
 
-setTimeout(() => {
-  const doorObj = scene.getObjectByName("door");
-  if (doorObj) {
-    new Tween(panel.rotation)
-      .to(
-        {
-          y: -0.5 * Math.PI,
-        },
-        1000
-      )
-      // 打开冰箱门
-      .easing(Easing.Linear.None)
-      .start();
+// 创建gui单击按钮
+const gui = new GUI();
+const folder = gui.addFolder("folder");
+folder
+  .add(
+    {
+      click: () =>
+        new Tween(left_door.rotation)
+          .to(
+            {
+              y: -0.6 * Math.PI,
+            },
+            1000
+          )
+          // 打开冰箱门
+          .easing(Easing.Linear.None)
+          .start(),
+    },
+    "click"
+  )
+  .name("打开左侧门");
 
-    new Tween(door.rotation)
-      .to(
-        {
-          y: -1 * Math.PI,
-        },
-        1000
-      )
-      // 打开冰箱门
-      .easing(Easing.Linear.None)
-      .start();
-  }
-}, 1000);
+folder
+  .add(
+    {
+      click: () =>
+        new Tween(right_door.rotation)
+          .to(
+            {
+              y: 0.6 * Math.PI,
+            },
+            1000
+          )
+          // 打开冰箱门
+          .easing(Easing.Linear.None)
+          .start(),
+    },
+    "click"
+  )
+  .name("打开右侧门");
