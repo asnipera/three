@@ -59,7 +59,7 @@ const directionalLightCameraHelper = new THREE.CameraHelper(
 directionalLightCameraHelper.visible = false;
 // scene.add(directionalLightCameraHelper);
 
-const ambientLight = new THREE.AmbientLight(new THREE.Color("#ffffff"), 0.3);
+const ambientLight = new THREE.AmbientLight(new THREE.Color("#ffffff"));
 scene.add(ambientLight, directionLight);
 
 const gltfLoader = new GLTFLoader();
@@ -68,41 +68,49 @@ dracoLoader.setDecoderPath("/draco/");
 gltfLoader.setDRACOLoader(dracoLoader);
 let left_door: THREE.Group;
 let right_door: THREE.Group;
-gltfLoader.load(
-  "/box/6.gltf",
-  (gltf) => {
-    const _scene1 = gltf.scene.clone();
-    _scene1.name = "left_door";
-    _scene1.children[0].translateZ(-1);
-    _scene1.position.set(0, 0, 2);
-    left_door = _scene1;
-    scene.add(_scene1);
-  },
-  (progress) => {
-    console.log("progress");
-    console.log(progress);
-  },
-  (error) => {
-    console.log("error");
-    console.log(error);
-  }
-);
+// gltfLoader.load(
+//   "/box/6.gltf",
+//   (gltf) => {
+//     const _scene1 = gltf.scene.clone();
+//     _scene1.name = "left_door";
+//     _scene1.children[0].translateZ(-1);
+//     _scene1.position.set(0, 0, 2);
+//     left_door = _scene1;
+//     scene.add(_scene1);
+//   },
+//   (progress) => {
+//     console.log("progress");
+//     console.log(progress);
+//   },
+//   (error) => {
+//     console.log("error");
+//     console.log(error);
+//   }
+// );
 
+let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/8.gltf",
+  "/fridge4/scene.gltf",
   (gltf) => {
-    const _scene2 = gltf.scene.clone();
-    _scene2.name = "right_door";
-    // _scene2.rotation.y = -Math.PI;
-    _scene2.children[0].translateZ(1);
-    _scene2.position.set(0, 0, -2);
-    right_door = _scene2;
-    scene.add(_scene2);
+    console.log(gltf.scene);
+
+    gltf.scene.rotation.y = Math.PI / 1.5;
+    gltf.scene.traverse((child) => {
+      if (child.name === "Fridge_01_door") {
+        console.log(child);
+        fridge_door = child as THREE.Group;
+        // child.rotation.y = Math.PI / 0.5;
+      }
+    });
+    // const _scene2 = gltf.scene.clone();
+    // _scene2.name = "right_door";
+    // // _scene2.rotation.y = -Math.PI;
+    // _scene2.children[0].translateZ(1);
+    // _scene2.position.set(0, 0, -2);
+    // right_door = _scene2;
+    scene.add(gltf.scene);
   },
-  (progress) => {
-    console.log("progress");
-    console.log(progress);
-  },
+  (progress) => {},
   (error) => {
     console.log("error");
     console.log(error);
@@ -167,10 +175,10 @@ folder
   .add(
     {
       click: () =>
-        new Tween(left_door.rotation)
+        new Tween(fridge_door.rotation)
           .to(
             {
-              y: -0.6 * Math.PI,
+              y: -Math.PI / 2.5,
             },
             1000
           )
@@ -186,10 +194,10 @@ folder
   .add(
     {
       click: () =>
-        new Tween(right_door.rotation)
+        new Tween(fridge_door.rotation)
           .to(
             {
-              y: 0.6 * Math.PI,
+              y: Math.PI / 180,
             },
             1000
           )
