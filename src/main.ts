@@ -8,6 +8,16 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 // 创建场景
 const scene = new THREE.Scene();
+scene.background = new THREE.Color("#BFE3DD");
+// 给scene添加一个背景图片
+// scene.background = new THREE.CubeTextureLoader().load([
+//   "/skybox/px.jpg",
+//   "/skybox/nx.jpg",
+//   "/skybox/py.jpg",
+//   "/skybox/ny.jpg",
+//   "/skybox/pz.jpg",
+//   "/skybox/nz.jpg",
+// ]);
 
 // 创建相机
 const camera = new THREE.PerspectiveCamera(
@@ -47,7 +57,7 @@ const directionalLightCameraHelper = new THREE.CameraHelper(
   directionLight.shadow.camera
 );
 directionalLightCameraHelper.visible = false;
-scene.add(directionalLightCameraHelper);
+// scene.add(directionalLightCameraHelper);
 
 const ambientLight = new THREE.AmbientLight(new THREE.Color("#ffffff"), 0.3);
 scene.add(ambientLight, directionLight);
@@ -79,7 +89,7 @@ gltfLoader.load(
 );
 
 gltfLoader.load(
-  "/box/7.gltf",
+  "/box/8.gltf",
   (gltf) => {
     const _scene2 = gltf.scene.clone();
     _scene2.name = "right_door";
