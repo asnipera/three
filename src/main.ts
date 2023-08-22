@@ -8,7 +8,7 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 // 创建场景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#BFE3DD");
+scene.background = new THREE.Color("#221F1D");
 // 给scene添加一个背景图片
 // scene.background = new THREE.CubeTextureLoader().load([
 //   "/skybox/px.jpg",
@@ -68,33 +68,33 @@ dracoLoader.setDecoderPath("/draco/");
 gltfLoader.setDRACOLoader(dracoLoader);
 let left_door: THREE.Group;
 let right_door: THREE.Group;
-// gltfLoader.load(
-//   "/box/6.gltf",
-//   (gltf) => {
-//     const _scene1 = gltf.scene.clone();
-//     _scene1.name = "left_door";
-//     _scene1.children[0].translateZ(-1);
-//     _scene1.position.set(0, 0, 2);
-//     left_door = _scene1;
-//     scene.add(_scene1);
-//   },
-//   (progress) => {
-//     console.log("progress");
-//     console.log(progress);
-//   },
-//   (error) => {
-//     console.log("error");
-//     console.log(error);
-//   }
-// );
+gltfLoader.load(
+  "/box/14_door.gltf",
+  (gltf) => {
+    console.log(gltf.scene);
+    const _scene1 = gltf.scene.clone();
+    _scene1.name = "left_door";
+    left_door = gltf.scene;
+    _scene1.scale.set(0.03, 0.03, 0.03);
+    // _scene1.children[0].translateZ(10);
+    // gltf.scene.position.set(0, 0, 1);
+    // gltf.scene.rotation.y = Math.PI;
+    scene.add(_scene1);
+  },
+  (progress) => {},
+  (error) => {
+    console.log("error");
+    console.log(error);
+  }
+);
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/fridge4/scene.gltf",
+  "/box/10.gltf",
   (gltf) => {
-    console.log(gltf.scene);
-
-    gltf.scene.rotation.y = Math.PI / 1.5;
+    gltf.scene.scale.set(0.03, 0.03, 0.03);
+    // 转180度
+    gltf.scene.rotation.y = Math.PI;
     gltf.scene.traverse((child) => {
       if (child.name === "Fridge_01_door") {
         console.log(child);
@@ -108,7 +108,7 @@ gltfLoader.load(
     // _scene2.children[0].translateZ(1);
     // _scene2.position.set(0, 0, -2);
     // right_door = _scene2;
-    scene.add(gltf.scene);
+    // scene.add(gltf.scene);
   },
   (progress) => {},
   (error) => {
@@ -175,10 +175,11 @@ folder
   .add(
     {
       click: () =>
-        new Tween(fridge_door.rotation)
+        new Tween(left_door.rotation)
           .to(
             {
-              y: -Math.PI / 2.5,
+              // 45度
+              y: Math.PI / 4,
             },
             1000
           )
