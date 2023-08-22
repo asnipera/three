@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(5, 0, 0);
+camera.position.set(-5, 0, 0);
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -69,14 +69,14 @@ gltfLoader.setDRACOLoader(dracoLoader);
 let left_door: THREE.Group;
 let right_door: THREE.Group;
 gltfLoader.load(
-  "/box/14_door.gltf",
+  "/box/16_door.gltf",
   (gltf) => {
     console.log(gltf.scene);
     gltf.scene.name = "left_door";
     left_door = gltf.scene;
     gltf.scene.scale.set(0.03, 0.03, 0.03);
-    gltf.scene.children[0].translateY(35);
-    gltf.scene.position.set(0.7, 0, -1);
+    gltf.scene.children[0].translateY(33);
+    gltf.scene.position.set(-0.002, 0, 1);
     // gltf.scene.rotation.y = Math.PI;
     scene.add(gltf.scene);
   },
@@ -89,18 +89,9 @@ gltfLoader.load(
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/10.gltf",
+  "/box/16.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
-    // 转180度
-    gltf.scene.rotation.y = Math.PI;
-    gltf.scene.traverse((child) => {
-      if (child.name === "Fridge_01_door") {
-        console.log(child);
-        fridge_door = child as THREE.Group;
-        // child.rotation.y = Math.PI / 0.5;
-      }
-    });
     // const _scene2 = gltf.scene.clone();
     // _scene2.name = "right_door";
     // // _scene2.rotation.y = -Math.PI;
