@@ -72,14 +72,13 @@ gltfLoader.load(
   "/box/14_door.gltf",
   (gltf) => {
     console.log(gltf.scene);
-    const _scene1 = gltf.scene.clone();
-    _scene1.name = "left_door";
+    gltf.scene.name = "left_door";
     left_door = gltf.scene;
-    _scene1.scale.set(0.03, 0.03, 0.03);
-    // _scene1.children[0].translateZ(10);
-    // gltf.scene.position.set(0, 0, 1);
+    gltf.scene.scale.set(0.03, 0.03, 0.03);
+    gltf.scene.children[0].translateY(35);
+    gltf.scene.position.set(0.7, 0, -1);
     // gltf.scene.rotation.y = Math.PI;
-    scene.add(_scene1);
+    scene.add(gltf.scene);
   },
   (progress) => {},
   (error) => {
@@ -108,7 +107,7 @@ gltfLoader.load(
     // _scene2.children[0].translateZ(1);
     // _scene2.position.set(0, 0, -2);
     // right_door = _scene2;
-    // scene.add(gltf.scene);
+    scene.add(gltf.scene);
   },
   (progress) => {},
   (error) => {
@@ -179,7 +178,7 @@ folder
           .to(
             {
               // 45度
-              y: Math.PI / 4,
+              y: Math.PI,
             },
             1000
           )
