@@ -107,7 +107,7 @@ function createSquare(
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/17.gltf",
+  "/box/18.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     console.log(gltf.scene);
