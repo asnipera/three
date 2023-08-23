@@ -75,8 +75,9 @@ gltfLoader.load(
     gltf.scene.name = "left_door";
     left_door = gltf.scene;
     gltf.scene.scale.set(0.03, 0.03, 0.03);
-    gltf.scene.children[0].translateY(33);
-    gltf.scene.position.set(-0.002, 0, 1);
+    gltf.scene.children[0].translateY(36);
+    gltf.scene.children[0].translateX(18);
+    gltf.scene.position.set(-0.5, 0, 1.1);
     // gltf.scene.rotation.y = Math.PI;
     scene.add(gltf.scene);
   },
@@ -158,6 +159,11 @@ function animate() {
 }
 animate();
 
+// 角度换算成弧度
+function angleToRadian(angle: number) {
+  return (angle * Math.PI) / 180;
+}
+
 // 创建gui单击按钮
 const gui = new GUI();
 const folder = gui.addFolder("folder");
@@ -169,7 +175,7 @@ folder
           .to(
             {
               // 45度
-              y: Math.PI,
+              y: angleToRadian(160),
             },
             1000
           )
