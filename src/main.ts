@@ -97,7 +97,7 @@ gltfLoader.load(
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/16.gltf",
+  "/box/17.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     // const _scene2 = gltf.scene.clone();
@@ -115,25 +115,25 @@ gltfLoader.load(
   }
 );
 
-gltfLoader.load(
-  "/box/16_square_1.gltf",
-  (gltf) => {
-    gltf.scene.scale.set(0.03, 0.03, 0.03);
-    gltf.scene.position.x = 0.4;
-    // const _scene2 = gltf.scene.clone();
-    // _scene2.name = "right_door";
-    // // _scene2.rotation.y = -Math.PI;
-    // _scene2.children[0].translateZ(1);
-    // _scene2.position.set(0, 0, -2);
-    // right_door = _scene2;
-    scene.add(gltf.scene);
-  },
-  (progress) => {},
-  (error) => {
-    console.log("error");
-    console.log(error);
-  }
-);
+// gltfLoader.load(
+//   "/box/16_square_1.gltf",
+//   (gltf) => {
+//     gltf.scene.scale.set(0.03, 0.03, 0.03);
+//     gltf.scene.position.x = 0.4;
+//     // const _scene2 = gltf.scene.clone();
+//     // _scene2.name = "right_door";
+//     // // _scene2.rotation.y = -Math.PI;
+//     // _scene2.children[0].translateZ(1);
+//     // _scene2.position.set(0, 0, -2);
+//     // right_door = _scene2;
+//     scene.add(gltf.scene);
+//   },
+//   (progress) => {},
+//   (error) => {
+//     console.log("error");
+//     console.log(error);
+//   }
+// );
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
