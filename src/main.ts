@@ -8,7 +8,7 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 // 创建场景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#221F1D");
+scene.background = new THREE.Color("#dddddd");
 // 给scene添加一个背景图片
 // scene.background = new THREE.CubeTextureLoader().load([
 //   "/skybox/px.jpg",
@@ -61,6 +61,13 @@ directionalLightCameraHelper.visible = false;
 
 const ambientLight = new THREE.AmbientLight(new THREE.Color("#ffffff"));
 scene.add(ambientLight, directionLight);
+// 自然光
+const hemisphereLight = new THREE.HemisphereLight(
+  new THREE.Color("#ffffff"),
+  new THREE.Color("#000000"),
+  1
+);
+scene.add(hemisphereLight);
 
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -93,6 +100,26 @@ gltfLoader.load(
   "/box/16.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
+    // const _scene2 = gltf.scene.clone();
+    // _scene2.name = "right_door";
+    // // _scene2.rotation.y = -Math.PI;
+    // _scene2.children[0].translateZ(1);
+    // _scene2.position.set(0, 0, -2);
+    // right_door = _scene2;
+    scene.add(gltf.scene);
+  },
+  (progress) => {},
+  (error) => {
+    console.log("error");
+    console.log(error);
+  }
+);
+
+gltfLoader.load(
+  "/box/16_square_1.gltf",
+  (gltf) => {
+    gltf.scene.scale.set(0.03, 0.03, 0.03);
+    gltf.scene.position.x = 0.4;
     // const _scene2 = gltf.scene.clone();
     // _scene2.name = "right_door";
     // // _scene2.rotation.y = -Math.PI;
