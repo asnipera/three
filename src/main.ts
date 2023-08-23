@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(-5, 0, 0);
+camera.position.set(-5, 0, 0.7);
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -74,32 +74,50 @@ const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("/draco/");
 gltfLoader.setDRACOLoader(dracoLoader);
 let left_door: THREE.Group;
-let right_door: THREE.Group;
-gltfLoader.load(
-  "/box/16_door.gltf",
-  (gltf) => {
-    console.log(gltf.scene);
-    gltf.scene.name = "left_door";
-    left_door = gltf.scene;
-    gltf.scene.scale.set(0.03, 0.03, 0.03);
-    gltf.scene.children[0].translateY(36);
-    gltf.scene.children[0].translateX(18);
-    gltf.scene.position.set(-0.5, 0, 1.1);
-    // gltf.scene.rotation.y = Math.PI;
-    scene.add(gltf.scene);
-  },
-  (progress) => {},
-  (error) => {
-    console.log("error");
-    console.log(error);
+gltfLoader.load("/box/16_door.gltf", (gltf) => {
+  gltf.scene.name = "left_door";
+  left_door = gltf.scene;
+  gltf.scene.scale.set(0.03, 0.03, 0.03);
+  gltf.scene.children[0].translateY(36);
+  gltf.scene.children[0].translateX(18);
+  gltf.scene.position.set(-0.5, 0, 1.1);
+  scene.add(gltf.scene);
+});
+
+function createSquare(
+  row: number,
+  column: number,
+  square: THREE.Object3D<THREE.Event>,
+  fridge: THREE.Object3D<THREE.Event>,
+  prefixName = "square",
+  span = 0.7
+) {
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < column; j++) {
+      const _square = square.clone();
+      _square.name = `${prefixName}_${i}_${j}`;
+      const box = new THREE.Box3().setFromObject(_square);
+      const size = box.getSize(new THREE.Vector3());
+      _square.position.setY(_square.position.y + size.y * i + span * (i + 1));
+      _square.position.setZ(_square.position.z + size.z * j + span * (j + 1));
+      fridge.add(_square);
+    }
   }
-);
+}
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
   "/box/17.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
+    console.log(gltf.scene);
+
+    gltf.scene.traverse((item) => {
+      if (item.name === "square") {
+        createSquare(5, 5, item, gltf.scene);
+        item.visible = false;
+      }
+    });
     // const _scene2 = gltf.scene.clone();
     // _scene2.name = "right_door";
     // // _scene2.rotation.y = -Math.PI;
@@ -218,10 +236,10 @@ folder
   .add(
     {
       click: () =>
-        new Tween(fridge_door.rotation)
+        new Tween(left_door.rotation)
           .to(
             {
-              y: Math.PI / 180,
+              y: angleToRadian(0),
             },
             1000
           )
