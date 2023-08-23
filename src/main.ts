@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(-5, 0, 0.7);
+camera.position.set(-4, 2.8, 0.8);
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -38,7 +38,7 @@ document.body.appendChild(renderer.domElement);
  */
 const directionLight = new THREE.DirectionalLight();
 directionLight.castShadow = true;
-directionLight.position.set(5, 5, 6);
+directionLight.position.set(-2, 2, -2);
 directionLight.shadow.camera.near = 1;
 directionLight.shadow.camera.far = 20;
 directionLight.shadow.camera.top = 10;
@@ -46,18 +46,7 @@ directionLight.shadow.camera.right = 10;
 directionLight.shadow.camera.bottom = -10;
 directionLight.shadow.camera.left = -10;
 
-const directionLightHelper = new THREE.DirectionalLightHelper(
-  directionLight,
-  2
-);
-directionLightHelper.visible = false;
-scene.add(directionLightHelper);
-
-const directionalLightCameraHelper = new THREE.CameraHelper(
-  directionLight.shadow.camera
-);
-directionalLightCameraHelper.visible = false;
-// scene.add(directionalLightCameraHelper);
+scene.add(directionLight);
 
 const ambientLight = new THREE.AmbientLight(new THREE.Color("#ffffff"));
 scene.add(ambientLight, directionLight);
@@ -68,6 +57,17 @@ const hemisphereLight = new THREE.HemisphereLight(
   1
 );
 scene.add(hemisphereLight);
+
+const spotLight = new THREE.SpotLight(0xffffff);
+spotLight.angle = Math.PI / 4;
+spotLight.position.set(0, 1.8, 0.8);
+// helper
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper);
+
+spotLight.castShadow = true;
+
+scene.add(spotLight);
 
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -81,7 +81,7 @@ gltfLoader.load("/box/16_door.gltf", (gltf) => {
   gltf.scene.children[0].translateY(36);
   gltf.scene.children[0].translateX(18);
   gltf.scene.position.set(-0.5, 0, 1.1);
-  scene.add(gltf.scene);
+  // scene.add(gltf.scene);
 });
 
 function createSquare(
@@ -107,13 +107,14 @@ function createSquare(
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/18.gltf",
+  "/box/19.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     console.log(gltf.scene);
 
     gltf.scene.traverse((item) => {
       if (item.name === "square") {
+        item.castShadow = true;
         createSquare(5, 5, item, gltf.scene);
         item.visible = false;
       }
@@ -124,6 +125,8 @@ gltfLoader.load(
     // _scene2.children[0].translateZ(1);
     // _scene2.position.set(0, 0, -2);
     // right_door = _scene2;
+    // gltf.scene.add(doorLight);
+    // scene.add(doorLightHelper);
     scene.add(gltf.scene);
   },
   (progress) => {},
