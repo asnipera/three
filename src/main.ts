@@ -36,19 +36,19 @@ document.body.appendChild(renderer.domElement);
 /**
  * Light
  */
-const directionLight = new THREE.DirectionalLight();
-directionLight.castShadow = true;
-directionLight.position.set(-2, 2, -2);
-directionLight.shadow.camera.near = 1;
-directionLight.shadow.camera.far = 20;
+const directionLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionLight.position.set(-2, -1, -2);
+directionLight.shadow.camera.near = 10;
+directionLight.shadow.camera.far = 200;
 directionLight.shadow.camera.top = 10;
-directionLight.shadow.camera.right = 10;
+directionLight.shadow.camera.right = 100;
 directionLight.shadow.camera.bottom = -10;
 directionLight.shadow.camera.left = -10;
+// helper
+const helper = new THREE.DirectionalLightHelper(directionLight, 1);
+scene.add(helper);
 
-scene.add(directionLight);
-
-const ambientLight = new THREE.AmbientLight(new THREE.Color("#ffffff"));
+const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(ambientLight, directionLight);
 // 自然光
 const hemisphereLight = new THREE.HemisphereLight(
@@ -57,19 +57,6 @@ const hemisphereLight = new THREE.HemisphereLight(
   1
 );
 scene.add(hemisphereLight);
-
-// 点光源
-const spotLight = new THREE.SpotLight(0xffffff, 1);
-spotLight.angle = Math.PI / 4;
-spotLight.position.set(0, 1.8, 0);
-spotLight.intensity = 1;
-// helper
-const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-// scene.add(spotLightHelper);
-
-spotLight.castShadow = true;
-
-scene.add(spotLight);
 
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -92,7 +79,7 @@ function createSquare(
   column: number,
   square: THREE.Object3D<THREE.Event>,
   fridge: THREE.Object3D<THREE.Event>,
-  rowSpan = 0.7,
+  rowSpan = 0.8,
   prefixName = "square",
   colSpan = 0.7
 ) {
@@ -128,16 +115,9 @@ function createLattice(
   }
 }
 
-const ambientLight1 = new THREE.AmbientLight("#b9d5ff", 0.12);
-scene.add(ambientLight1);
-
-const directionalLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
-directionalLight.position.set(1, 50, 0);
-scene.add(directionalLight);
-
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/26.gltf",
+  "/box/32.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     const doorLight = new THREE.PointLight("#ffffff", 1, 7);
@@ -156,9 +136,9 @@ gltfLoader.load(
     scene.add(doorLightHelper);
 
     gltf.scene.traverse((item) => {
-      if (item.name === "square") {
+      if (item.name === "Cube") {
         item.castShadow = true;
-        createSquare(5, 5, item, gltf.scene, 4);
+        createSquare(5, 5, item, gltf.scene, 4.2);
         item.visible = false;
       }
     });
