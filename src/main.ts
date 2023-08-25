@@ -117,7 +117,7 @@ function createLattice(
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/32.gltf",
+  "/box/33.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     const doorLight = new THREE.PointLight("#ffffff", 1, 7);
