@@ -82,8 +82,8 @@ gltfLoader.load("/box/16_door.gltf", (gltf) => {
   gltf.scene.scale.set(0.03, 0.03, 0.03);
   gltf.scene.children[0].translateY(36);
   gltf.scene.children[0].translateX(18);
-  gltf.scene.position.set(-0.5, 0, 1.1);
-  // scene.add(gltf.scene);
+  gltf.scene.position.set(-0.5, 0, 1.08);
+  scene.add(gltf.scene);
 });
 
 function createSquare(
@@ -117,18 +117,18 @@ scene.add(directionalLight);
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/19.gltf",
+  "/box/21.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     const doorLight = new THREE.PointLight("#ffffff", 1, 7);
-    doorLight.position.set(0, 50, 20);
+    doorLight.position.set(0, 60, -10);
     // helper
     const doorLightHelper = new THREE.PointLightHelper(doorLight, 1);
     doorLight.castShadow = true;
     doorLight.shadow.camera.near = 1;
     doorLight.shadow.camera.far = 20;
     doorLight.shadow.mapSize.set(1024, 1024);
-    doorLight.shadow.radius = 2;
+    doorLight.shadow.radius = 5;
     doorLight.shadow.bias = -0.0001;
     doorLight.shadow.normalBias = 0.02;
     doorLight.shadow.camera.updateProjectionMatrix();
