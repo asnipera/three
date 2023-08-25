@@ -8,7 +8,7 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 // 创建场景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#dddddd");
+scene.background = new THREE.Color("#ffffff");
 // 给scene添加一个背景图片
 // scene.background = new THREE.CubeTextureLoader().load([
 //   "/skybox/px.jpg",
@@ -26,10 +26,10 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(-4, 2.8, 0.8);
+camera.position.set(-4, 1.8, 0.8);
 
 // 创建渲染器
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -58,12 +58,14 @@ const hemisphereLight = new THREE.HemisphereLight(
 );
 scene.add(hemisphereLight);
 
-const spotLight = new THREE.SpotLight(0xffffff);
+// 点光源
+const spotLight = new THREE.SpotLight(0xffffff, 1);
 spotLight.angle = Math.PI / 4;
-spotLight.position.set(0, 1.8, 0.8);
+spotLight.position.set(0, 1.8, 0);
+spotLight.intensity = 1;
 // helper
 const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-scene.add(spotLightHelper);
+// scene.add(spotLightHelper);
 
 spotLight.castShadow = true;
 
@@ -100,17 +102,38 @@ function createSquare(
       const size = box.getSize(new THREE.Vector3());
       _square.position.setY(_square.position.y + size.y * i + span * (i + 1));
       _square.position.setZ(_square.position.z + size.z * j + span * (j + 1));
+      _square.receiveShadow = true;
       fridge.add(_square);
     }
   }
 }
+
+const ambientLight1 = new THREE.AmbientLight("#b9d5ff", 0.12);
+scene.add(ambientLight1);
+
+const directionalLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
+directionalLight.position.set(1, 50, 0);
+scene.add(directionalLight);
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
   "/box/19.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
-    console.log(gltf.scene);
+    const doorLight = new THREE.PointLight("#ffffff", 1, 7);
+    doorLight.position.set(0, 50, 20);
+    // helper
+    const doorLightHelper = new THREE.PointLightHelper(doorLight, 1);
+    doorLight.castShadow = true;
+    doorLight.shadow.camera.near = 1;
+    doorLight.shadow.camera.far = 20;
+    doorLight.shadow.mapSize.set(1024, 1024);
+    doorLight.shadow.radius = 2;
+    doorLight.shadow.bias = -0.0001;
+    doorLight.shadow.normalBias = 0.02;
+    doorLight.shadow.camera.updateProjectionMatrix();
+    gltf.scene.add(doorLight);
+    scene.add(doorLightHelper);
 
     gltf.scene.traverse((item) => {
       if (item.name === "square") {
