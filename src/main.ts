@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(-4, 1.8, 0.8);
+camera.position.set(-4, 1.5, 1.2);
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -92,8 +92,9 @@ function createSquare(
   column: number,
   square: THREE.Object3D<THREE.Event>,
   fridge: THREE.Object3D<THREE.Event>,
+  rowSpan = 0.7,
   prefixName = "square",
-  span = 0.7
+  colSpan = 0.7
 ) {
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < column; j++) {
@@ -102,10 +103,8 @@ function createSquare(
       const box = new THREE.Box3().setFromObject(_square);
       const size = box.getSize(new THREE.Vector3());
       squareHeight = size.y;
-      _square.position.setY(
-        _square.position.y + size.y * i + span * i + 1.1 * i
-      );
-      _square.position.setZ(_square.position.z + size.z * j + span * j);
+      _square.position.setY(_square.position.y + size.y * i + rowSpan * i);
+      _square.position.setZ(_square.position.z + size.z * j + colSpan * j);
       _square.receiveShadow = true;
       fridge.add(_square);
     }
@@ -117,15 +116,13 @@ function createLattice(
   square: THREE.Object3D<THREE.Event>,
   fridge: THREE.Object3D<THREE.Event>,
   prefixName = "lattice",
-  span = 0.7
+  span = 3.6
 ) {
   for (let i = 0; i < row; i++) {
     const _square = square.clone();
     _square.name = `${prefixName}_${i}`;
-    const box = new THREE.Box3().setFromObject(_square);
-    const size = box.getSize(new THREE.Vector3());
     const currentY = _square.position.y;
-    _square.position.setY(currentY + squareHeight * i + size.y * i + span * i);
+    _square.position.setY(currentY + squareHeight * i + span * (i + 1));
     _square.receiveShadow = true;
     fridge.add(_square);
   }
@@ -161,7 +158,7 @@ gltfLoader.load(
     gltf.scene.traverse((item) => {
       if (item.name === "square") {
         item.castShadow = true;
-        createSquare(5, 5, item, gltf.scene);
+        createSquare(5, 5, item, gltf.scene, 4);
         item.visible = false;
       }
     });
