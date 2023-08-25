@@ -101,7 +101,7 @@ function createSquare(
       const box = new THREE.Box3().setFromObject(_square);
       const size = box.getSize(new THREE.Vector3());
       _square.position.setY(_square.position.y + size.y * i + span * (i + 1));
-      _square.position.setZ(_square.position.z + size.z * j + span * (j + 1));
+      _square.position.setZ(_square.position.z + size.z * j + span * j);
       _square.receiveShadow = true;
       fridge.add(_square);
     }
