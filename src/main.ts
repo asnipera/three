@@ -86,6 +86,7 @@ gltfLoader.load("/box/16_door.gltf", (gltf) => {
   // scene.add(gltf.scene);
 });
 
+let squareHeight = 0;
 function createSquare(
   row: number,
   column: number,
@@ -100,13 +101,33 @@ function createSquare(
       _square.name = `${prefixName}_${i}_${j}`;
       const box = new THREE.Box3().setFromObject(_square);
       const size = box.getSize(new THREE.Vector3());
+      squareHeight = size.y;
       _square.position.setY(
-        _square.position.y + size.y * i + span * i + (i > 0 ? 1.1 : 0)
+        _square.position.y + size.y * i + span * i + 1.1 * i
       );
       _square.position.setZ(_square.position.z + size.z * j + span * j);
       _square.receiveShadow = true;
       fridge.add(_square);
     }
+  }
+}
+
+function createLattice(
+  row: number,
+  square: THREE.Object3D<THREE.Event>,
+  fridge: THREE.Object3D<THREE.Event>,
+  prefixName = "lattice",
+  span = 0.7
+) {
+  for (let i = 0; i < row; i++) {
+    const _square = square.clone();
+    _square.name = `${prefixName}_${i}`;
+    const box = new THREE.Box3().setFromObject(_square);
+    const size = box.getSize(new THREE.Vector3());
+    const currentY = _square.position.y;
+    _square.position.setY(currentY + squareHeight * i + size.y * i + span * i);
+    _square.receiveShadow = true;
+    fridge.add(_square);
   }
 }
 
@@ -119,7 +140,7 @@ scene.add(directionalLight);
 
 let fridge_door: THREE.Group;
 gltfLoader.load(
-  "/box/24.gltf",
+  "/box/26.gltf",
   (gltf) => {
     gltf.scene.scale.set(0.03, 0.03, 0.03);
     const doorLight = new THREE.PointLight("#ffffff", 1, 7);
@@ -141,6 +162,14 @@ gltfLoader.load(
       if (item.name === "square") {
         item.castShadow = true;
         createSquare(5, 5, item, gltf.scene);
+        item.visible = false;
+      }
+    });
+
+    gltf.scene.traverse((item) => {
+      if (item.name === "Box033_Chrome_0001") {
+        item.castShadow = true;
+        createLattice(5, item, gltf.scene);
         item.visible = false;
       }
     });
