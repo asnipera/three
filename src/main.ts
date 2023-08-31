@@ -8,7 +8,7 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { cloneDeep } from "lodash";
 // 创建场景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#ffffff");
+scene.background = new THREE.Color(0x000000);
 // 给scene添加一个背景图片
 // scene.background = new THREE.CubeTextureLoader().load([
 //   "/skybox/px.jpg",
@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(-15, 0, 0);
+camera.position.set(-20, 0, 0);
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -34,8 +34,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // 坐标系
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 /**
  * Light
  */
@@ -48,8 +48,8 @@ directionLight.shadow.camera.right = 100;
 directionLight.shadow.camera.bottom = -10;
 directionLight.shadow.camera.left = -10;
 // helper
-const helper = new THREE.DirectionalLightHelper(directionLight, 1);
-scene.add(helper);
+// const helper = new THREE.DirectionalLightHelper(directionLight, 1);
+// scene.add(helper);
 
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(ambientLight, directionLight);
@@ -74,8 +74,10 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 // 加载CIF文件并创建模型
 const loader = new THREE.FileLoader();
-loader.load("/cif/Ac2CdGa.cif", function (cif) {
-  const mol = ChemDoodle.readCIF(cif, 0);
+loader.load("/cif/9011777.cif", function (cif) {
+  const mol = ChemDoodle.readCIF(cif, 1, 1, 1);
+  console.log(mol);
+
   const model = new THREE.Group();
   const molecule = mol.molecule;
   const atoms = molecule.atoms;
@@ -168,10 +170,32 @@ loader.load("/cif/Ac2CdGa.cif", function (cif) {
         });
         model.add(_scene);
       }
+      console.log(bondCount);
+
+      const box = new THREE.Box3().setFromObject(model);
+      const center = new THREE.Vector3();
+      const c = box.getCenter(center).negate();
+      const { x, y, z } = c;
+
+      model.position.set(x, y, z);
+
+      const boxHelper = new THREE.BoxHelper(new THREE.Mesh(), 0xffffff);
+      const helper = boxHelper.setFromObject(model);
+      scene.add(model, helper);
 
       for (let i = 0; i < bondCount; i++) {
         const bond = bonds[i];
         const { a1, a2 } = bond;
+        // const validA1 = atoms.some(
+        //   (atom) => atom.x === a1.x && atom.y === a1.y && atom.z === a1.z
+        // );
+        // const validA2 = atoms.some(
+        //   (atom) => atom.x === a2.x && atom.y === a2.y && atom.z === a2.z
+        // );
+        // if (!validA1 || !validA2) {
+        //   console.log(777);
+        //   continue;
+        // }
         const height = a2.distance3D(a1);
 
         const cylinderGeometry = new THREE.CylinderGeometry(
@@ -205,18 +229,9 @@ loader.load("/cif/Ac2CdGa.cif", function (cif) {
 
         quaternion.setFromUnitVectors(axis, direction);
         cylinderMesh.setRotationFromQuaternion(quaternion);
-
+        console.log(i);
         model.add(cylinderMesh);
       }
-
-      const box = new THREE.Box3().setFromObject(model);
-      const center = new THREE.Vector3();
-      const c = box.getCenter(center).negate();
-
-      model.position.setX(c.x);
-      model.position.setY(c.y);
-      model.position.setZ(c.z);
-      scene.add(model);
     },
     (progress) => {},
     (error) => {

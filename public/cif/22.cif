@@ -1,0 +1,148 @@
+#------------------------------------------------------------------------------
+#$Date: 2023-03-27 10:00:38 +0300 (Mon, 27 Mar 2023) $
+#$Revision: 282074 $
+#$URL: svn://www.crystallography.net/cod/cif/9/01/74/9017460.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/. The original data for this entry
+# were provided the American Mineralogist Crystal Structure Database,
+# http://rruff.geo.arizona.edu/AMS/amcsd.php
+#
+# The file may be used within the scientific community so long as
+# proper attribution is given to the journal article from which the
+# data were obtained.
+#
+data_9017460
+loop_
+_publ_author_name
+'Rastsvetaeva, R. K.'
+'Rozenberg, K. A.'
+'Khomyakov, A. P.'
+_publ_section_title
+;
+ Crystal structure of high-silica K,Na-ordered acentric eudialyte analogue
+;
+_journal_name_full               'Doklady Chemistry'
+_journal_page_first              11
+_journal_page_last               14
+_journal_volume                  424
+_journal_year                    2009
+_chemical_compound_source        'Khibiny alkaline massif, Russia'
+_chemical_formula_sum
+'Ba0.03 Ca6 Cl1.62 Fe2.25 H1.662 Hf0.03 K2.295 Mn0.15 Na12.945 Nb0.03 O74.389 Si26 Sr0.3 Ti0.15 Zr2.79'
+_chemical_name_mineral           Davinciite
+_space_group_IT_number           160
+_space_group_name_Hall           'R 3 -2"'
+_space_group_name_H-M_alt        'R 3 m :H'
+_symmetry_space_group_name_H-M   'R 3 m :H'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                120
+_cell_length_a                   14.2956
+_cell_length_b                   14.2956
+_cell_length_c                   30.0228
+_cell_volume                     5313.572
+_database_code_amcsd             0019916
+_exptl_crystal_density_diffrn    2.851
+_cod_data_source_file            inputs/fixed/downloads/15/15038.cif
+_cod_data_source_block           15038
+_cod_original_sg_symbol_H-M      'R 3 m'
+_cod_original_formula_sum
+'(Zr2.79 Hf.03 Ti.15 Nb.03) Ca6 Si26 O74.389 Fe2.25 Mn.15 Na12.945 K2.295 Sr.3 Ba.03 Cl1.62 H1.662'
+_cod_database_code               9017460
+loop_
+_space_group_symop_operation_xyz
+x,y,z
+2/3+x,1/3+y,1/3+z
+1/3+x,2/3+y,2/3+z
+x,x-y,z
+2/3+x,1/3+x-y,1/3+z
+1/3+x,2/3+x-y,2/3+z
+-y,-x,z
+2/3-y,1/3-x,1/3+z
+1/3-y,2/3-x,2/3+z
+-x+y,y,z
+2/3-x+y,1/3+y,1/3+z
+1/3-x+y,2/3+y,2/3+z
+-y,x-y,z
+2/3-y,1/3+x-y,1/3+z
+1/3-y,2/3+x-y,2/3+z
+-x+y,-x,z
+2/3-x+y,1/3-x,1/3+z
+1/3-x+y,2/3-x,2/3+z
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+Zr 0.33280 0.16640 0.16680 0.93000 0.01500
+Hf 0.33280 0.16640 0.16680 0.01000 0.01500
+Ti 0.33280 0.16640 0.16680 0.05000 0.01500
+Nb 0.33280 0.16640 0.16680 0.01000 0.01500
+Ca1 0.99990 0.26000 0.99980 1.00000 0.00600
+Si1 0.52730 0.26360 0.25100 1.00000 0.00600
+Si2 0.99460 0.60280 0.09760 1.00000 0.00600
+Si3 0.20930 0.41860 0.07510 1.00000 0.01100
+Si4 0.08560 0.54280 0.25780 1.00000 0.01200
+Si5 0.05820 0.32900 0.23640 1.00000 0.01000
+Si6 0.14140 0.07070 0.08320 1.00000 0.01100
+O1 0.47470 0.23730 0.20050 1.00000 0.01800
+O2 0.26250 0.02840 0.20630 1.00000 0.01800
+O3 0.40190 0.29710 0.12430 1.00000 0.01800
+O4 0.60550 0.39450 0.25400 1.00000 0.01700
+O5 0.44280 0.22140 0.28790 1.00000 0.00800
+O6 0.41210 0.02870 0.04450 1.00000 0.00900
+O7 0.10700 0.39130 0.10640 1.00000 0.02000
+O8 0.01090 0.50550 0.11730 1.00000 0.01900
+O9 0.27370 0.54750 0.06210 1.00000 0.04400
+O10 0.17700 0.35400 0.02900 1.00000 0.01400
+O11 0.02980 0.51490 0.30380 1.00000 0.01100
+O12 0.17660 0.35320 0.21790 1.00000 0.01200
+O13 0.04490 0.30050 0.28860 1.00000 0.01400
+O14 0.38730 0.43610 0.22390 1.00000 0.02100
+O15 0.39310 0.60690 0.25450 1.00000 0.03600
+O16 0.06150 0.12310 0.07710 1.00000 0.01100
+O17 0.18210 0.09100 0.13280 1.00000 0.01600
+O18 0.23360 0.11680 0.04390 1.00000 0.01500
+FeM2 0.49870 0.50120 0.00030 0.75000 0.01100
+MnM2 0.49870 0.50120 0.00030 0.05000 0.01100
+NaM2 0.49870 0.50120 0.00030 0.19000 0.01100
+Si3a 0.33333 0.66667 0.24730 1.00000 0.01200
+Si4a 0.33333 0.66667 0.04850 1.00000 0.02600
+NaA1 0.10830 0.21650 0.15420 1.00000 0.03600
+NaA2 0.58120 0.41880 0.16500 1.00000 0.03300
+KA3a 0.24040 0.48080 -0.04640 0.53000 0.01300
+NaA3b 0.23280 0.11640 0.27690 0.23500 0.02400
+KA3b 0.23280 0.11640 0.27690 0.23500 0.02400
+NaA4a 0.46140 0.23070 0.04990 0.89000 0.01800
+SrA4a 0.46140 0.23070 0.04990 0.04000 0.01800
+SrA4b 0.49320 0.24660 0.04450 0.06000 0.01000
+BaA4b 0.49320 0.24660 0.04450 0.01000 0.01000
+Na5a 0.25480 0.50960 0.17430 0.58000 0.08200
+Na5b 0.41930 0.58070 0.16380 0.42000 0.05600
+Cl1 0.00000 0.00000 0.24240 0.54000 0.03600
+Cl2 0.66667 0.33333 0.10260 0.70000 0.03600
+Wat11 0.00000 0.00000 0.21940 0.23000 0.03900
+Cl11 0.00000 0.00000 0.21940 0.23000 0.03900
+Cl21 0.66667 0.33333 0.04900 0.15000 0.02900
+Wat21 0.66667 0.33333 0.04900 0.15000 0.02900
+O-H1 0.41000 0.59000 0.00400 0.00200 0.04500
+O1 0.41000 0.59000 0.00400 0.00300 0.04500
+O-H2 0.58200 0.41800 -0.00200 0.00200 0.02300
+O2 0.58200 0.41800 -0.00200 0.00300 0.02300
+O-H3 0.33333 0.66667 0.14000 0.25600 0.02000
+O3 0.33333 0.66667 0.14000 0.31300 0.02000
+O-H4 0.33333 0.66667 0.19670 0.22500 0.01300
+O4 0.33333 0.66667 0.19670 0.27500 0.01300
+O-H5 0.33333 0.66667 0.99500 0.18400 0.05700
+O5 0.33333 0.66667 0.99500 0.22600 0.05700
+O-H6 0.33333 0.66667 0.33000 0.22500 0.07600
+O6 0.33333 0.66667 0.33000 0.27500 0.07600
+loop_
+_cod_related_entry_id
+_cod_related_entry_database
+_cod_related_entry_code
+1 AMCSD 0019916
