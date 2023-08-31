@@ -94,7 +94,7 @@ fileInput?.addEventListener("change", function (e) {
     scene.add(light);
 
     gltfLoader.load(
-      "/ball/ball.gltf",
+      "./ball/ball.gltf",
       (gltf) => {
         // gltf.scene.scale.set(30, 30, 30);
         // const doorLight = new THREE.PointLight("#ffffff", 1, 7);
