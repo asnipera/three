@@ -80,6 +80,8 @@ fileInput?.addEventListener("change", function (e) {
   fileReader.onload = (ev) => {
     const cif = ev.target.result;
     const mol = ChemDoodle.readCIF(cif);
+    console.log(mol);
+
     const model = new THREE.Group();
     const molecule = mol.molecule;
     const atoms = molecule.atoms;
@@ -87,7 +89,7 @@ fileInput?.addEventListener("change", function (e) {
     const atomCount = atoms.length;
     const bondCount = bonds.length;
     const gltfLoader = new GLTFLoader();
-
+    let unitCell = mol.unitCell;
     // 添加光源以使模型可见
     const light = new THREE.DirectionalLight(0xffffff, 1.5);
     light.position.set(-10, 10, -10);
@@ -153,7 +155,7 @@ fileInput?.addEventListener("change", function (e) {
           // (ball as THREE.Mesh).material.color = color;
           const _scene = _ball.clone();
           _scene.position.set(x, y, z);
-          _scene.scale.set(0.3, 0.3, 0.3);
+          _scene.scale.set(0.4, 0.4, 0.4);
           _scene.traverse((child) => {
             if (child.isMesh && child.material) {
               if (Array.isArray(child.material)) {
@@ -177,11 +179,11 @@ fileInput?.addEventListener("change", function (e) {
         const c = box.getCenter(center).negate();
         const { x, y, z } = c;
 
-        model.position.set(x, y, z);
+        // model.position.set(x, y, z);
 
         const boxHelper = new THREE.BoxHelper(new THREE.Mesh(), 0xffffff);
         const helper = boxHelper.setFromObject(model);
-        scene.add(model, helper);
+        scene.add(model);
 
         for (let i = 0; i < bondCount; i++) {
           const bond = bonds[i];
@@ -231,6 +233,21 @@ fileInput?.addEventListener("change", function (e) {
           cylinderMesh.setRotationFromQuaternion(quaternion);
           model.add(cylinderMesh);
         }
+
+        const geometry = new THREE.BufferGeometry();
+        const unitCellData = unitCell;
+        geometry.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(unitCellData.positionData, 3)
+        );
+        geometry.setIndex(unitCellData.indexData);
+
+        const material = new THREE.LineBasicMaterial({
+          color: 0xffffff,
+        });
+
+        const lineSegments = new THREE.LineSegments(geometry, material);
+        scene.add(lineSegments);
       },
       (progress) => {},
       (error) => {
