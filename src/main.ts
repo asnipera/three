@@ -80,8 +80,6 @@ fileInput?.addEventListener("change", function (e) {
   fileReader.onload = (ev) => {
     const cif = ev.target.result;
     const mol = ChemDoodle.readCIF(cif);
-    console.log(mol);
-
     const model = new THREE.Group();
     const molecule = mol.molecule;
     const atoms = molecule.atoms;
@@ -95,51 +93,50 @@ fileInput?.addEventListener("change", function (e) {
     light.position.set(-10, 10, -10);
     scene.add(light);
 
+    let bondsToRender = [];
+
+    function getVanDerWaalsRadius(label: string) {
+      const map = {
+        Zr: 0.206,
+        Nb: 0.2,
+      };
+      const element = map[label];
+      if (element) {
+        return element;
+      }
+
+      return 0;
+    }
+
+    function calculateDistance(point1, point2) {
+      const dx = point2.x - point1.x;
+      const dy = point2.y - point1.y;
+      const dz = point2.z - point1.z;
+
+      return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    for (let bond of molecule.bonds) {
+      let atom1 = bond.a1;
+      let v1 = new THREE.Vector3(atom1.x, atom1.y, atom1.z);
+      let atom2 = bond.a2;
+      let v2 = new THREE.Vector3(atom2.x, atom2.y, atom2.z);
+      let distance = calculateDistance(v1, v2);
+      console.log(`Distance between point A and point B: ${distance}`);
+      let vdW1 = getVanDerWaalsRadius(atom1.label);
+      let vdW2 = getVanDerWaalsRadius(atom2.label);
+
+      if (distance <= 2.2 * (vdW1 + vdW2)) {
+        bondsToRender.push(bond);
+      }
+    }
+
+    console.log(bondsToRender);
+
     gltfLoader.load(
       "./ball/ball.gltf",
       (gltf) => {
-        // gltf.scene.scale.set(30, 30, 30);
-        // const doorLight = new THREE.PointLight("#ffffff", 1, 7);
-        // doorLight.position.set(0, 60, -10);
-        // // helper
-        // const doorLightHelper = new THREE.PointLightHelper(doorLight, 1);
-        // doorLight.castShadow = true;
-        // doorLight.shadow.camera.near = 1;
-        // doorLight.shadow.camera.far = 20;
-        // doorLight.shadow.mapSize.set(1024, 1024);
-        // doorLight.shadow.radius = 5;
-        // doorLight.shadow.bias = -0.0001;
-        // doorLight.shadow.normalBias = 0.02;
-        // doorLight.shadow.camera.updateProjectionMatrix();
-        // gltf.scene.add(doorLight);
-        // scene.add(doorLightHelper);
-
-        // gltf.scene.traverse((item) => {
-        //   if (item.name === "Cube") {
-        //     item.castShadow = true;
-        //     createSquare(5, 5, item, gltf.scene, 4.2);
-        //     item.visible = false;
-        //   }
-        // });
-
-        // gltf.scene.traverse((item) => {
-        //   if (item.name === "Box033_Chrome_0001") {
-        //     item.castShadow = true;
-        //     createLattice(5, item, gltf.scene);
-        //     item.visible = false;
-        //   }
-        // });
-        // const _scene2 = gltf.scene.clone();
-        // _scene2.name = "right_door";
-        // // _scene2.rotation.y = -Math.PI;
-        // _scene2.children[0].translateZ(1);
-        // _scene2.position.set(0, 0, -2);
-        // right_door = _scene2;
-        // gltf.scene.add(doorLight);
-        // scene.add(doorLightHelper);
         let _ball = gltf.scene;
-        // scene.add(_ball);
-
         for (let i = 0; i < atomCount; i++) {
           // const ball = _ball!.clone();
           // ball.name = "ball_" + i;
@@ -174,30 +171,10 @@ fileInput?.addEventListener("change", function (e) {
           });
           model.add(_scene);
         }
-        const box = new THREE.Box3().setFromObject(model);
-        const center = new THREE.Vector3();
-        const c = box.getCenter(center).negate();
-        const { x, y, z } = c;
-
-        // model.position.set(x, y, z);
-
-        const boxHelper = new THREE.BoxHelper(new THREE.Mesh(), 0xffffff);
-        const helper = boxHelper.setFromObject(model);
         scene.add(model);
-
         for (let i = 0; i < bondCount; i++) {
           const bond = bonds[i];
           const { a1, a2 } = bond;
-          // const validA1 = atoms.some(
-          //   (atom) => atom.x === a1.x && atom.y === a1.y && atom.z === a1.z
-          // );
-          // const validA2 = atoms.some(
-          //   (atom) => atom.x === a2.x && atom.y === a2.y && atom.z === a2.z
-          // );
-          // if (!validA1 || !validA2) {
-          //   console.log(777);
-          //   continue;
-          // }
           const height = a2.distance3D(a1);
 
           const cylinderGeometry = new THREE.CylinderGeometry(
@@ -233,7 +210,6 @@ fileInput?.addEventListener("change", function (e) {
           cylinderMesh.setRotationFromQuaternion(quaternion);
           model.add(cylinderMesh);
         }
-
         const geometry = new THREE.BufferGeometry();
         const unitCellData = unitCell;
         geometry.setAttribute(
