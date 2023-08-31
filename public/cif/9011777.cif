@@ -48,6 +48,26 @@ _cod_original_formula_sum
 'Na4.4 K.6 (Zr.7 Ti.2 Nb.1) (Y.8 Dy.1 Gd.1) Si6 O24 H12'
 _cod_database_code               9011777
 loop_
+_space_group_symop_operation_xyz
+x,y,z
+2/3+x,1/3+y,1/3+z
+1/3+x,2/3+y,2/3+z
+-x,-x+y,-z
+2/3-x,1/3-x+y,1/3-z
+1/3-x,2/3-x+y,2/3-z
+y,x,-z
+2/3+y,1/3+x,1/3-z
+1/3+y,2/3+x,2/3-z
+x-y,-y,-z
+2/3+x-y,1/3-y,1/3-z
+1/3+x-y,2/3-y,2/3-z
+-y,x-y,z
+2/3-y,1/3+x-y,1/3+z
+1/3-y,2/3+x-y,2/3+z
+-x+y,-x,z
+2/3-x+y,1/3-x,1/3+z
+1/3-x+y,2/3-x,2/3+z
+loop_
 _atom_site_label
 _atom_site_fract_x
 _atom_site_fract_y
