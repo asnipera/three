@@ -5,6 +5,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { Tween, Easing, update } from "three/examples/jsm/libs/tween.module.js";
 // gui
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
+import { cloneDeep } from "lodash";
 // 创建场景
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("#ffffff");
@@ -163,20 +164,47 @@ gltfLoader.load(
     // gltf.scene.add(doorLight);
     // scene.add(doorLightHelper);
     console.log(gltf);
+    let _ball = gltf.scene;
+    // scene.add(_ball);
 
     for (let i = 0; i < atomCount; i++) {
-      const ball = gltf.scene.children[0].clone();
+      // const ball = _ball!.clone();
+      // ball.name = "ball_" + i;
       const atom = atoms[i];
-
       const { x, y, z } = atom;
-      ball.position.set(x, y, z);
-      model.add(ball);
+      // ball.position.set(x, y, z);
+      // ball.scale.set(0.5, 0.5, 0.5);
+      const color = new THREE.Color(
+        Math.random(),
+        Math.random(),
+        Math.random()
+      );
+      // (ball as THREE.Mesh).material.color = color;
+      const _scene = _ball.clone();
+      _scene.position.set(x, y, z);
+      _scene.scale.set(0.2, 0.2, 0.2);
+      _scene.traverse((child) => {
+        if (child.isMesh && child.material) {
+          if (Array.isArray(child.material)) {
+            // 对于具有多重材质的对象
+            child.material = child.material.map((mat) => {
+              const newMat = mat.clone();
+              newMat.color.copy(color);
+              return newMat;
+            });
+          } else {
+            // 对于只有一个材质的对象
+            child.material = child.material.clone();
+            child.material.color.copy(color);
+          }
+        }
+      });
+      model.add(_scene);
     }
 
     model.position.setX(-3);
     model.position.setY(-3);
     model.position.setZ(-3);
-
     scene.add(model);
 
     // scene.add(gltf.scene);
