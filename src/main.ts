@@ -73,18 +73,18 @@ const controls = new OrbitControls(camera, renderer.domElement);
 // scene.add(directionalLight);
 
 const cif = `# generated using pymatgen
-data_Ac2CuSi
+data_Ac
 _symmetry_space_group_name_H-M   'P 1'
-_cell_length_a   7.65983084
-_cell_length_b   7.65983084
-_cell_length_c   7.65983084
+_cell_length_a   4.04604077
+_cell_length_b   4.04604077
+_cell_length_c   13.01703648
 _cell_angle_alpha   90.00000000
 _cell_angle_beta   90.00000000
-_cell_angle_gamma   90.00000000
+_cell_angle_gamma   120.00000000
 _symmetry_Int_Tables_number   1
-_chemical_formula_structural   Ac2CuSi
-_chemical_formula_sum   'Ac8 Cu4 Si4'
-_cell_volume   449.42531996
+_chemical_formula_structural   Ac
+_chemical_formula_sum   Ac4
+_cell_volume   184.54541612
 _cell_formula_units_Z   4
 loop_
  _symmetry_equiv_pos_site_id
@@ -98,24 +98,14 @@ loop_
  _atom_site_fract_y
  _atom_site_fract_z
  _atom_site_occupancy
-  Ac  Ac0  1  0.75000000  0.75000000  0.25000000  1
-  Ac  Ac1  1  0.25000000  0.75000000  0.25000000  1
-  Ac  Ac2  1  0.75000000  0.25000000  0.75000000  1
-  Ac  Ac3  1  0.25000000  0.25000000  0.75000000  1
-  Ac  Ac4  1  0.25000000  0.75000000  0.75000000  1
-  Ac  Ac5  1  0.75000000  0.75000000  0.75000000  1
-  Ac  Ac6  1  0.25000000  0.25000000  0.25000000  1
-  Ac  Ac7  1  0.75000000  0.25000000  0.25000000  1
-  Cu  Cu8  1  0.00000000  0.50000000  0.00000000  1
-  Cu  Cu9  1  0.00000000  0.00000000  0.50000000  1
-  Cu  Cu10  1  0.50000000  0.50000000  0.50000000  1
-  Cu  Cu11  1  0.50000000  0.00000000  0.00000000  1
-  Si  Si12  1  0.00000000  0.00000000  0.00000000  1
-  Si  Si13  1  0.00000000  0.50000000  0.50000000  1
-  Si  Si14  1  0.50000000  0.00000000  0.50000000  1
-  Si  Si15  1  0.50000000  0.50000000  0.00000000  1
+  Ac  Ac0  1  0.00000000  0.00000000  0.00000000  1
+  Ac  Ac1  1  0.33333333  0.66666667  0.25000000  1
+  Ac  Ac2  1  0.00000000  0.00000000  0.50000000  1
+  Ac  Ac3  1  0.66666667  0.33333333  0.75000000  1
 `;
 const mol = ChemDoodle.readCIF(cif);
+console.log(mol);
+
 const model = new THREE.Group();
 const molecule = mol.molecule;
 const atoms = molecule.atoms;
@@ -163,7 +153,6 @@ gltfLoader.load(
     // right_door = _scene2;
     // gltf.scene.add(doorLight);
     // scene.add(doorLightHelper);
-    console.log(gltf);
     let _ball = gltf.scene;
     // scene.add(_ball);
 
